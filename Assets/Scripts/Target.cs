@@ -38,15 +38,23 @@ public class Target : MonoBehaviour
     // Destroy Object on Mouse Click like in Fruit Ninja
     private void OnMouseDown()
     {
-        Destroy(gameObject);
-        Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
-        gameManager.UpdateScore(pointValue);
+        if (gameManager.isGameActive)
+        {
+            Destroy(gameObject);
+            Instantiate(explosionParticle, transform.position, explosionParticle.transform.rotation);
+            gameManager.UpdateScore(pointValue);
+        }
     }
 
     // Destroy Object once it enters the trigger of the Sensor after leaving game view to free resources
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
+        // Once an Object collides with the sensor, show the Game Over text
+        if(!gameObject.CompareTag("Bad"))
+        {
+            gameManager.GameOver();
+        }
     }
 
     // Force
